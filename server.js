@@ -21,6 +21,10 @@ mongoose.connect(process.env.MONGO_URI)
   })
   .catch(err => console.error('Admin Backend: MongoDB connection error:', err));
 
+app.get('/', (req, res) => {
+  res.send('Admin Backend is running on Vercel!');
+});
+
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Admin Backend is running' });
 });
