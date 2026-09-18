@@ -45,8 +45,10 @@ app.use('/api/banners', require('./routes/bannerRoutes'));
 app.use('/api/brands', require('./routes/brandRoutes'));
 app.use('/api/shipping', require('./routes/shippingRoutes'));
 
-app.listen(PORT, () => {
-  console.log(`Admin Backend server is running on port ${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`Admin Backend server is running on port ${PORT}`);
+  });
+}
 
 module.exports = app;
