@@ -8,7 +8,12 @@ exports.getAllCategories = async (req, res) => {
         
         // Add product counts to each category (simple approach for now)
         const enrichedCategories = await Promise.all(categories.map(async (cat) => {
-            const count = await Product.countDocuments({ category: cat.name });
+            const count = await Product.countDocuments({ 
+                $or: [
+                    { category: cat.name },
+                    { category: cat._id.toString() }
+                ]
+            });
             const subCategories = await SubCategory.find({ parentCategory: cat._id }).sort({ displayOrder: 1, name: 1 }).lean();
             return { ...cat, productCount: count, subCategories };
         }));
@@ -23,14 +28,22 @@ exports.getAllCategories = async (req, res) => {
 exports.createCategory = async (req, res) => {
     try {
         const { name, description, subCategories } = req.body;
+        let image = req.body.image;
+        if (req.file) {
+            image = `${process.env.VITE_API_URL || 'http://localhost:5000'}/uploads/${req.file.filename}`;
+        }
         if (!name) {
             return res.status(400).json({ success: false, message: 'Please provide a category name' });
         }
         
-        const category = await Category.create({ name, description });
+        const category = await Category.create({ name, description, image });
 
-        if (subCategories && Array.isArray(subCategories)) {
-            const subCatDocs = subCategories.map(sc => ({
+        let parsedSubCategories = subCategories;
+        if (typeof subCategories === 'string') {
+            try { parsedSubCategories = JSON.parse(subCategories); } catch (e) {}
+        }
+        if (parsedSubCategories && Array.isArray(parsedSubCategories)) {
+            const subCatDocs = parsedSubCategories.map(sc => ({
                 name: typeof sc === 'string' ? sc : sc.name,
                 parentCategory: category._id
             }));
@@ -47,21 +60,33 @@ exports.createCategory = async (req, res) => {
 exports.updateCategory = async (req, res) => {
     try {
         const { name, description, status, subCategories } = req.body;
+        let image = req.body.image;
+        if (req.file) {
+            image = `${process.env.VITE_API_URL || 'http://localhost:5000'}/uploads/${req.file.filename}`;
+        }
+        
+        // Parse subCategories back if it's sent as string
+        let parsedSubCategories = subCategories;
+        if (typeof subCategories === 'string') {
+            try {
+                parsedSubCategories = JSON.parse(subCategories);
+            } catch (e) { }
+        }
         const category = await Category.findByIdAndUpdate(
             req.params.id,
-            { name, description, status },
+            { name, description, status, image },
             { new: true, runValidators: true }
         );
         if (!category) {
             return res.status(404).json({ success: false, message: 'Category not found' });
         }
 
-        if (subCategories && Array.isArray(subCategories)) {
+        if (parsedSubCategories && Array.isArray(parsedSubCategories)) {
             // Delete old subcategories not in the new list (or simply clear and recreate for simplicity)
             // But preserving IDs is better if products reference them. 
             // For simplicity, we can just add new ones that don't have an _id.
             
-            for (const sc of subCategories) {
+            for (const sc of parsedSubCategories) {
                 if (typeof sc === 'string' || !sc._id) {
                     await SubCategory.create({ name: typeof sc === 'string' ? sc : sc.name, parentCategory: category._id });
                 } else {

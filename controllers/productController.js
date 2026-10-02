@@ -25,7 +25,7 @@ exports.getProducts = async (req, res) => {
 // @access  Private
 exports.createProduct = async (req, res) => {
     try {
-        const { name, category, subCategory, brand, price, stockQuantity, description, images, ageGroup } = req.body;
+        const { name, category, subCategory, brand, originalPrice, price, stockQuantity, description, images, ageGroup } = req.body;
 
         const newProduct = new Product({
             name,
@@ -34,6 +34,7 @@ exports.createProduct = async (req, res) => {
             subCategory: subCategory || undefined,
             brand: brand || undefined,
             price: Number(price),
+            originalPrice: originalPrice ? Number(originalPrice) : undefined,
             stockQuantity: Number(stockQuantity),
             description,
             images: images || [],
@@ -61,7 +62,7 @@ exports.createProduct = async (req, res) => {
 // @access  Private
 exports.updateProduct = async (req, res) => {
     try {
-        const { name, category, subCategory, brand, price, stockQuantity, description, images, ageGroup } = req.body;
+        const { name, category, subCategory, brand, originalPrice, price, stockQuantity, description, images, ageGroup } = req.body;
 
         let product = await Product.findById(req.params.id);
         if (!product) {
@@ -73,6 +74,7 @@ exports.updateProduct = async (req, res) => {
         if (subCategory !== undefined) product.subCategory = subCategory || undefined;
         if (brand !== undefined) product.brand = brand || undefined;
         if (price) product.price = Number(price);
+        if (originalPrice !== undefined) product.originalPrice = originalPrice ? Number(originalPrice) : undefined;
         if (stockQuantity !== undefined) product.stockQuantity = Number(stockQuantity);
         if (description !== undefined) product.description = description;
         if (images && images.length > 0) product.images = images;

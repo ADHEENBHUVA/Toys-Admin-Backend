@@ -36,3 +36,25 @@ exports.updateSocialLinks = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+exports.updateDiscountDisplayType = async (req, res) => {
+    try {
+        const { discountDisplayType } = req.body;
+        if (!['amount', 'percentage'].includes(discountDisplayType)) {
+            return res.status(400).json({ message: 'Invalid discount display type' });
+        }
+        
+        let settings = await WebsiteSettings.findOne();
+        if (!settings) {
+            settings = new WebsiteSettings();
+        }
+        
+        settings.discountDisplayType = discountDisplayType;
+        await settings.save();
+        
+        res.json({ message: 'Discount display settings updated successfully', settings });
+    } catch (error) {
+        console.error('Error updating discount display type:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
