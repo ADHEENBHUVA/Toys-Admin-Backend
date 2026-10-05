@@ -4,7 +4,7 @@ const Order = require('../models/Order');
 exports.getAllOrders = async (req, res) => {
     try {
         const orders = await Order.find()
-            .populate('customer', 'firstName lastName email')
+            .populate('customer', 'firstName lastName name email')
             .sort({ createdAt: -1 });
         
         res.status(200).json({ success: true, count: orders.length, data: orders });

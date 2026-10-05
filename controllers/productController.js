@@ -25,7 +25,7 @@ exports.getProducts = async (req, res) => {
 // @access  Private
 exports.createProduct = async (req, res) => {
     try {
-        const { name, category, subCategory, brand, originalPrice, price, stockQuantity, description, images, ageGroup } = req.body;
+        const { name, category, subCategory, brand, originalPrice, price, stockQuantity, description, images, ageGroup, discountDisplayType } = req.body;
 
         const newProduct = new Product({
             name,
@@ -39,6 +39,7 @@ exports.createProduct = async (req, res) => {
             description,
             images: images || [],
             ageGroup: ageGroup || [],
+            discountDisplayType: discountDisplayType || 'percentage',
             status: 'Active'
         });
 
@@ -62,7 +63,7 @@ exports.createProduct = async (req, res) => {
 // @access  Private
 exports.updateProduct = async (req, res) => {
     try {
-        const { name, category, subCategory, brand, originalPrice, price, stockQuantity, description, images, ageGroup } = req.body;
+        const { name, category, subCategory, brand, originalPrice, price, stockQuantity, description, images, ageGroup, discountDisplayType } = req.body;
 
         let product = await Product.findById(req.params.id);
         if (!product) {
@@ -79,6 +80,7 @@ exports.updateProduct = async (req, res) => {
         if (description !== undefined) product.description = description;
         if (images && images.length > 0) product.images = images;
         if (ageGroup !== undefined) product.ageGroup = ageGroup;
+        if (discountDisplayType !== undefined) product.discountDisplayType = discountDisplayType;
 
         await product.save();
 

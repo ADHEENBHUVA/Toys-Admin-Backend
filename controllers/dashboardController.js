@@ -92,7 +92,7 @@ exports.getDashboardStats = async (req, res) => {
         const recentSales = await Order.find()
             .sort({ createdAt: -1 })
             .limit(5)
-            .populate('customer', 'firstName lastName')
+            .populate('customer', 'firstName lastName name')
             .populate('orderItems.product', 'name');
 
         const formattedRecentSales = recentSales.map(order => {
