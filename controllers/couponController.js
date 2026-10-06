@@ -2,7 +2,7 @@ const Coupon = require('../models/Coupon');
 
 exports.getAllCoupons = async (req, res) => {
     try {
-        const coupons = await Coupon.find().sort({ createdAt: -1 });
+        const coupons = await Coupon.find().populate('usedBy.user', 'firstName lastName name email').sort({ createdAt: -1 });
         res.status(200).json({ success: true, count: coupons.length, data: coupons });
     } catch (error) {
         console.error('Error fetching coupons:', error);

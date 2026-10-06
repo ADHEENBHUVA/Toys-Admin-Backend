@@ -25,7 +25,7 @@ exports.getProducts = async (req, res) => {
 // @access  Private
 exports.createProduct = async (req, res) => {
     try {
-        const { name, category, subCategory, brand, originalPrice, price, stockQuantity, description, images, ageGroup, discountDisplayType } = req.body;
+        const { name, category, subCategory, brand, originalPrice, price, stockQuantity, description, images, ageGroup, discountDisplayType, isReturnable, returnDays } = req.body;
 
         const newProduct = new Product({
             name,
@@ -40,7 +40,9 @@ exports.createProduct = async (req, res) => {
             images: images || [],
             ageGroup: ageGroup || [],
             discountDisplayType: discountDisplayType || 'percentage',
-            status: 'Active'
+            status: 'Active',
+            isReturnable: isReturnable || false,
+            returnDays: returnDays || 0
         });
 
         await newProduct.save();
@@ -63,7 +65,7 @@ exports.createProduct = async (req, res) => {
 // @access  Private
 exports.updateProduct = async (req, res) => {
     try {
-        const { name, category, subCategory, brand, originalPrice, price, stockQuantity, description, images, ageGroup, discountDisplayType } = req.body;
+        const { name, category, subCategory, brand, originalPrice, price, stockQuantity, description, images, ageGroup, discountDisplayType, isReturnable, returnDays } = req.body;
 
         let product = await Product.findById(req.params.id);
         if (!product) {
@@ -81,6 +83,8 @@ exports.updateProduct = async (req, res) => {
         if (images && images.length > 0) product.images = images;
         if (ageGroup !== undefined) product.ageGroup = ageGroup;
         if (discountDisplayType !== undefined) product.discountDisplayType = discountDisplayType;
+        if (isReturnable !== undefined) product.isReturnable = isReturnable;
+        if (returnDays !== undefined) product.returnDays = returnDays;
 
         await product.save();
 
