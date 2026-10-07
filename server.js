@@ -47,6 +47,7 @@ app.use('/api/shipping', require('./routes/shippingRoutes'));
 app.use('/api/subscribers', require('./routes/subscriberRoutes'));
 app.use('/api/settings', require('./routes/settingsRoutes'));
 app.use('/api/testimonials', require('./routes/testimonialRoutes'));
+app.use('/api/promomedia', require('./routes/promoMedia'));
 if (process.env.NODE_ENV !== 'production') {
   app.listen(PORT, () => {
     console.log(`Admin Backend server is running on port ${PORT}`);
