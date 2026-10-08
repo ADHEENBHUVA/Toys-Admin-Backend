@@ -25,7 +25,9 @@ const websiteSettingsSchema = new mongoose.Schema({
         type: String,
         enum: ['amount', 'percentage'],
         default: 'amount'
-    }
+    },
+    featuredVideoUrl: { type: String },
+    featuredVideoThumbnail: { type: String }
 }, { timestamps: true });
 
 module.exports = mongoose.model('WebsiteSettings', websiteSettingsSchema);

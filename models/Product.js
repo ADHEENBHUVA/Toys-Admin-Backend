@@ -23,7 +23,7 @@ const productSchema = new mongoose.Schema({
     thumbnailImage: { type: String },
 
     ageGroup: [{ type: String }],
-    gender: { type: String, enum: ['Boys', 'Girls', 'Unisex'], default: 'Unisex' },
+    gender: { type: String, enum: ['Boys', 'Girls', 'All'], default: 'All' },
     toyType: { type: String },
     material: { type: String },
     color: { type: String },

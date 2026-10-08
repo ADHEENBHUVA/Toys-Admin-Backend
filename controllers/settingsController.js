@@ -58,3 +58,31 @@ exports.updateDiscountDisplayType = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+exports.updateFeaturedVideo = async (req, res) => {
+    try {
+        const { featuredVideoUrl, featuredVideoThumbnail } = req.body;
+        let settings = await WebsiteSettings.findOne();
+        if (!settings) {
+            settings = new WebsiteSettings();
+        }
+        
+        if (req.files && req.files.videoFile) {
+            settings.featuredVideoUrl = `/uploads/settings/${req.files.videoFile[0].filename}`;
+        } else if (featuredVideoUrl !== undefined) {
+            settings.featuredVideoUrl = featuredVideoUrl;
+        }
+
+        if (req.files && req.files.thumbnailFile) {
+            settings.featuredVideoThumbnail = `/uploads/settings/${req.files.thumbnailFile[0].filename}`;
+        } else if (featuredVideoThumbnail !== undefined) {
+            settings.featuredVideoThumbnail = featuredVideoThumbnail;
+        }
+        
+        await settings.save();
+        res.json({ message: 'Featured video updated successfully', settings });
+    } catch (error) {
+        console.error('Error updating featured video:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
