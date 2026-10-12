@@ -5,7 +5,13 @@ const Product = require('../models/Product');
 // @access  Private
 exports.getProducts = async (req, res) => {
     try {
-        const products = await Product.find({}, { images: { $slice: 1 } }).sort({ createdAt: -1 });
+        const products = await Product.find({}, { images: { $slice: 1 } })
+            .populate('categories')
+            .populate('subCategories')
+            .populate('collections')
+            .populate('subCollections')
+            .populate('brand')
+            .sort({ createdAt: -1 });
         res.json({
             success: true,
             count: products.length,
@@ -25,16 +31,16 @@ exports.getProducts = async (req, res) => {
 // @access  Private
 exports.createProduct = async (req, res) => {
     try {
-        const { name, category, subCategory, brand, originalPrice, price, stockQuantity, description, images, ageGroup, discountDisplayType, isReturnable, returnDays } = req.body;
+        const { name, category, subCategory, brand, originalPrice, price, stockQuantity, description, images, ageGroup, discountDisplayType, isReturnable, returnDays, collections, subCollections, categories, subCategories, gender } = req.body;
 
         const newProduct = new Product({
             name,
             sku: 'SKU-' + Math.random().toString(36).substring(2, 8).toUpperCase(),
             category,
-            subCategory: subCategory || undefined,
-            brand: brand || undefined,
+            subCategory: subCategory ||category, subCategory: subCategory || undefined, collections: collections || [], subCollections: subCollections || [], categories: categories || [], subCategories: subCategories || [], gender: gender || 'All',
+            brand: brand ||category, subCategory: subCategory || undefined, collections: collections || [], subCollections: subCollections || [], categories: categories || [], subCategories: subCategories || [], gender: gender || 'All',
             price: Number(price),
-            originalPrice: originalPrice ? Number(originalPrice) : undefined,
+            originalPrice: originalPrice ? Number(originalPrice) :category, subCategory: subCategory || undefined, collections: collections || [], subCollections: subCollections || [], categories: categories || [], subCategories: subCategories || [], gender: gender || 'All',
             stockQuantity: Number(stockQuantity),
             description,
             images: images || [],
@@ -65,7 +71,7 @@ exports.createProduct = async (req, res) => {
 // @access  Private
 exports.updateProduct = async (req, res) => {
     try {
-        const { name, category, subCategory, brand, originalPrice, price, stockQuantity, description, images, ageGroup, discountDisplayType, isReturnable, returnDays } = req.body;
+        const { name, category, subCategory, brand, originalPrice, price, stockQuantity, description, images, ageGroup, discountDisplayType, isReturnable, returnDays, collections, subCollections, categories, subCategories, gender } = req.body;
 
         let product = await Product.findById(req.params.id);
         if (!product) {
@@ -131,7 +137,12 @@ exports.deleteProduct = async (req, res) => {
 // @access  Private
 exports.getProductById = async (req, res) => {
     try {
-        const product = await Product.findById(req.params.id);
+        const product = await Product.findById(req.params.id)
+            .populate('categories')
+            .populate('subCategories')
+            .populate('collections')
+            .populate('subCollections')
+            .populate('brand');
         if (!product) {
             return res.status(404).json({ success: false, message: 'Product not found' });
         }

@@ -11,70 +11,70 @@ const videoUrl = "https://www.w3schools.com/html/mov_bbb.mp4"; // generic fallba
 const toyVideos = [
     {
         title: "Die-cast Porsche Carrera",
-        subtitle: "Club: ₹1,424.00",
+        subtitle: "₹1,424.00",
         type: "video",
         mediaUrl: "https://videos.pexels.com/video-files/5001479/5001479-uhd_2160_3840_30fps.mp4",
         link: "/products"
     },
     {
         title: "Frictions Airplanes",
-        subtitle: "Club: ₹94.00",
+        subtitle: "₹94.00",
         type: "video",
         mediaUrl: "https://videos.pexels.com/video-files/3889812/3889812-uhd_2160_4096_30fps.mp4",
         link: "/products"
     },
     {
         title: "Toy train with track set",
-        subtitle: "Club: ₹993.00",
+        subtitle: "₹993.00",
         type: "video",
         mediaUrl: "https://videos.pexels.com/video-files/3907572/3907572-hd_1080_1920_30fps.mp4",
         link: "/products"
     },
     {
         title: "Bafna Jumping Dino",
-        subtitle: "Club: ₹94.00",
+        subtitle: "₹94.00",
         type: "video",
         mediaUrl: "https://videos.pexels.com/video-files/3851574/3851574-hd_1080_1920_25fps.mp4",
         link: "/products"
     },
     {
         title: "Windup Fish Key Toy",
-        subtitle: "Club: ₹94.00",
+        subtitle: "₹94.00",
         type: "video",
         mediaUrl: "https://videos.pexels.com/video-files/4204558/4204558-hd_1080_1920_30fps.mp4",
         link: "/products"
     },
     {
         title: "Magic Spring Rainbow",
-        subtitle: "Club: ₹45.00",
+        subtitle: "₹45.00",
         type: "video",
         mediaUrl: "https://videos.pexels.com/video-files/3851581/3851581-hd_1080_1920_25fps.mp4",
         link: "/products"
     },
     {
         title: "Pull Back Mini Cars",
-        subtitle: "Club: ₹150.00",
+        subtitle: "₹150.00",
         type: "video",
         mediaUrl: "https://videos.pexels.com/video-files/4006198/4006198-hd_1080_1920_30fps.mp4",
         link: "/products"
     },
     {
         title: "Plush Teddy Bear",
-        subtitle: "Club: ₹499.00",
+        subtitle: "₹499.00",
         type: "video",
         mediaUrl: "https://videos.pexels.com/video-files/3851575/3851575-hd_1080_1920_25fps.mp4",
         link: "/products"
     },
     {
         title: "Building Blocks Set",
-        subtitle: "Club: ₹899.00",
+        subtitle: "₹899.00",
         type: "video",
         mediaUrl: "https://videos.pexels.com/video-files/4204555/4204555-hd_1080_1920_30fps.mp4",
         link: "/products"
     },
     {
         title: "Remote Control Truck",
-        subtitle: "Club: ₹1,299.00",
+        subtitle: "₹1,299.00",
         type: "video",
         mediaUrl: "https://videos.pexels.com/video-files/5001481/5001481-hd_1080_1920_30fps.mp4",
         link: "/products"

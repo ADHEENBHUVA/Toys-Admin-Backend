@@ -3,8 +3,15 @@ const mongoose = require('mongoose');
 const productSchema = new mongoose.Schema({
     name: { type: String, required: true, trim: true },
     sku: { type: String, required: true, unique: true, trim: true },
-    category: { type: String, required: false },
-    subCategory: { type: mongoose.Schema.Types.ObjectId, ref: 'SubCategory' },
+    category: { type: String, required: false }, // Legacy field
+    subCategory: { type: mongoose.Schema.Types.ObjectId, ref: 'SubCategory' }, // Legacy field
+
+    // New multi-select fields
+    categories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category' }],
+    subCategories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'SubCategory' }],
+    collections: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Collection' }],
+    subCollections: [{ type: mongoose.Schema.Types.ObjectId, ref: 'SubCollection' }],
+
     brand: { type: mongoose.Schema.Types.ObjectId, ref: 'Brand' },
 
     description: { type: String },
@@ -23,7 +30,7 @@ const productSchema = new mongoose.Schema({
     thumbnailImage: { type: String },
 
     ageGroup: [{ type: String }],
-    gender: { type: String, enum: ['Boys', 'Girls', 'All'], default: 'All' },
+    gender: { type: String, enum: ['Boys', 'Girls', 'All', 'Unisex'], default: 'All' },
     toyType: { type: String },
     material: { type: String },
     color: { type: String },

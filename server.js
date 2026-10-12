@@ -37,6 +37,8 @@ app.use('/api/orders', require('./routes/orderRoutes'));
 app.use('/api/customers', require('./routes/customerRoutes'));
 app.use('/api/categories', require('./routes/categoryRoutes'));
 app.use('/api/subcategories', require('./routes/subCategoryRoutes'));
+app.use('/api/collections', require('./routes/collectionRoutes'));
+app.use('/api/subcollections', require('./routes/subCollectionRoutes'));
 app.use('/api/feedbacks', require('./routes/feedbackRoutes'));
 app.use('/api/reviews', require('./routes/reviewRoutes'));
 app.use('/api/coupons', require('./routes/couponRoutes'));

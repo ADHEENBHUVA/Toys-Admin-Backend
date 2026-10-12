@@ -11,7 +11,8 @@ exports.getAllCategories = async (req, res) => {
             const count = await Product.countDocuments({ 
                 $or: [
                     { category: cat.name },
-                    { category: cat._id.toString() }
+                    { category: cat._id.toString() },
+                    { categories: cat._id }
                 ]
             });
             const subCategories = await SubCategory.find({ parentCategory: cat._id }).sort({ displayOrder: 1, name: 1 }).lean();
